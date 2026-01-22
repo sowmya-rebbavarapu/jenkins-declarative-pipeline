@@ -12,7 +12,7 @@ pipeline {
         stage('Build') {
             steps {
                 dir('ci-demo') {
-                    sh 'mvn clean compile'
+                    bat 'mvn clean compile'
                 }
             }
         }
@@ -20,7 +20,7 @@ pipeline {
         stage('Test') {
             steps {
                 dir('ci-demo') {
-                    sh 'mvn test'
+                    bat 'mvn test'
                 }
             }
         }
@@ -34,10 +34,10 @@ pipeline {
 
     post {
         success {
-            echo 'Pipeline succeeded'
+            echo '✅ Pipeline succeeded'
         }
         failure {
-            echo 'Pipeline failed - deployment stopped'
+            echo '❌ Pipeline failed - deployment stopped'
         }
     }
 }
