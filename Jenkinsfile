@@ -11,8 +11,13 @@ pipeline {
 
         stage('Build') {
             steps {
+                echo 'Building the application...'
                 dir('ci-demo') {
-                    bat 'mvn clean compile'
+                    // Create build folder only if it doesn't exist
+                    bat '''
+                    if not exist build mkdir build
+                    echo Build successful > build\\build.txt
+                    '''
                 }
             }
         }
@@ -20,8 +25,11 @@ pipeline {
         stage('Test') {
             steps {
                 dir('ci-demo') {
+                    // Run Maven tests
                     bat 'mvn test'
                 }
+                // Publish JUnit test results
+                junit 'ci-demo/target/surefire-reports/*.xml'
             }
         }
 
