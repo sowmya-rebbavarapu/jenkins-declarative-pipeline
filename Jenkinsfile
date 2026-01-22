@@ -6,23 +6,27 @@ pipeline {
         stage('Build') {
             steps {
                 echo 'Building the application...'
-                mkdir 'build'
-                echo 'Build successful' > build/build.txt
+                bat '''
+                mkdir build
+                echo Build successful > build\\build.txt
+                '''
             }
         }
 
         stage('Test') {
             steps {
                 echo 'Running tests...'
-                mkdir 'test-results'
-                echo 'All tests passed' > test-results/results.txt
+                bat '''
+                mkdir test-results
+                echo All tests passed > test-results\\results.txt
+                '''
             }
         }
 
         stage('Deploy') {
             steps {
                 echo 'Deploying application...'
-                echo 'Deployment successful'
+                bat 'echo Deployment successful'
             }
         }
     }
@@ -38,7 +42,7 @@ pipeline {
 
         always {
             echo 'Archiving artifacts...'
-            archiveArtifacts artifacts: '**/build.txt, **/results.txt', fingerprint: true
+            archiveArtifacts artifacts: 'build/**, test-results/**', fingerprint: true
         }
     }
 }
